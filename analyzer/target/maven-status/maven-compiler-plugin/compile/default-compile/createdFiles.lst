@@ -1,0 +1,5 @@
+com\elobanova\websiteanalyzer\parser\DocumentInfo$1.class
+com\elobanova\websiteanalyzer\parser\JsoupParser.class
+com\elobanova\websiteanalyzer\parser\DocumentInfo.class
+com\elobanova\websiteanalyzer\parser\DocumentInfo$DocumentInfoBuilder.class
+com\elobanova\websiteanalyzer\controller\WebSiteAnalyzerServlet.class
