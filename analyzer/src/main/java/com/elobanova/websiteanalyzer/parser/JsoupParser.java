@@ -15,7 +15,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
-import com.elobanova.websiteanalyzer.parser.DocumentInfo.DocumentInfoBuilder;
+import com.elobanova.websiteanalyzer.model.DocumentInfo;
+import com.elobanova.websiteanalyzer.model.DocumentInfo.DocumentInfoBuilder;
 
 public class JsoupParser {
 	private static final String LINK_ATTRIBUTE_NAME = "href";
