@@ -23,6 +23,13 @@ public class WebSiteAnalyzerServlet extends HttpServlet {
 	private static final int POOL_LIMIT = 5;
 	private static final long serialVersionUID = 1L;
 	private ConcurrentMap<String, AnalysisTask> tasks = new ConcurrentHashMap<>();
+	private ExecutorService executor;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		this.executor = Executors.newFixedThreadPool(POOL_LIMIT);
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -41,7 +48,7 @@ public class WebSiteAnalyzerServlet extends HttpServlet {
 		if (pageurl == null || pageurl.isEmpty()) {
 			log("PageUrl was empty");
 		} else {
-			ExecutorService executor = Executors.newFixedThreadPool(POOL_LIMIT);
+
 			AnalysisTask analysisTask = new AnalysisTask();
 			analysisTask.setUrl(pageurl);
 			analysisTask.setStatus(StatusEnum.PROCESSING);
@@ -66,6 +73,14 @@ public class WebSiteAnalyzerServlet extends HttpServlet {
 			});
 			executor.execute(taskRunnable);
 		}
+	}
+
+	@Override
+	public void destroy() {
+		if (this.executor != null) {
+			this.executor.shutdown();
+		}
+		super.destroy();
 	}
 
 }

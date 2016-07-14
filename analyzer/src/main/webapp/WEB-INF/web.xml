@@ -14,5 +14,5 @@
 	<servlet-mapping>
 		<servlet-name>WebSiteAnalyzerServlet</servlet-name>
 		<url-pattern>/WebSiteAnalyzerServlet</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping>	
 </web-app>
