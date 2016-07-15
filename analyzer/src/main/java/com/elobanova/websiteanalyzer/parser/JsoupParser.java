@@ -21,11 +21,11 @@ import com.elobanova.websiteanalyzer.model.DocumentInfo.DocumentInfoBuilder;
 import com.elobanova.websiteanalyzer.model.HeadingInfo;
 
 public class JsoupParser {
+	public static final int HEADING_LEVELS_NUMBER_IN_HTML = 6;
 	private static final String INPUT_TYPE_PASSWORD_QUERY = "input[type$=password]";
 	private static final String FORM_TAG = "form";
 	private static final String LINK_ATTRIBUTE_NAME = "href";
 	private static final String HEADING_MARK = "h";
-	private static final int HEADING_LEVELS_NUMBER_IN_HTML = 6;
 	private final String INTERNAL_LINK_QUERY = "a[" + LINK_ATTRIBUTE_NAME + "]";
 	private final String EXTERNAL_LINK_QUERY = "link[" + LINK_ATTRIBUTE_NAME + "]";
 	private final String PUBLIC_ID_KEY = "publicid";
@@ -51,9 +51,10 @@ public class JsoupParser {
 
 		StringBuilder fullQuery = new StringBuilder();
 		for (int i = 0; i < HEADING_LEVELS_NUMBER_IN_HTML; i++) {
-			if (i != HEADING_LEVELS_NUMBER_IN_HTML) {
-				int level = i + 1;
-				fullQuery.append(HEADING_MARK + level);
+			int level = i + 1;
+
+			fullQuery.append(HEADING_MARK + level);
+			if (level != HEADING_LEVELS_NUMBER_IN_HTML) {
 				fullQuery.append(", ");
 			}
 		}

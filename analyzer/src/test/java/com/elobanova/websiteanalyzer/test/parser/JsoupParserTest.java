@@ -1,12 +1,15 @@
 package com.elobanova.websiteanalyzer.test.parser;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.parser.JsoupParser;
 
 public class JsoupParserTest {
@@ -43,6 +46,14 @@ public class JsoupParserTest {
 		boolean expectedLoginIsPresent = true;
 		boolean actualLoginIsPresent = jsoupParser.parseLoginFormIsPresent();
 		assertEquals(expectedLoginIsPresent, actualLoginIsPresent);
+	}
+	
+	@Test
+	public void testParseHeadings() {
+		List<HeadingInfo> actualHeadings = jsoupParser.parseHeadings();
+		
+		assertNotNull(actualHeadings);
+		assertEquals(JsoupParser.HEADING_LEVELS_NUMBER_IN_HTML, actualHeadings.size());
 	}
 
 	@Test
