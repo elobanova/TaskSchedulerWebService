@@ -1,5 +1,11 @@
 package com.elobanova.websiteanalyzer.model;
 
+/**
+ * An enum with the status of a task. A task can be either under processing
+ * (PROCESSING), done with the job (DONE) or results in an error (ERROR).
+ * 
+ * @author Ekaterina Lobanova
+ */
 public enum StatusEnum {
 	PROCESSING("processing"), ERROR("error"), DONE("done");
 

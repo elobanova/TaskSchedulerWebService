@@ -1,5 +1,11 @@
 package com.elobanova.websiteanalyzer.model;
 
+/**
+ * A class representing a task analyzing an HTML document with a url, status
+ * information and extracted document details.
+ * 
+ * @author Ekaterina Lobanova
+ */
 public class AnalysisTask {
 	private String url;
 	private StatusEnum status;

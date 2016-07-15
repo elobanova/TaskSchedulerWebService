@@ -12,6 +12,11 @@ import com.elobanova.websiteanalyzer.model.DocumentInfo;
 import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
 
+/**
+ * A class which exports the model objects into a JSON representation.
+ * 
+ * @author Ekaterina Lobanova
+ */
 public class JSONExporter {
 	public static final String URL_PROPERTY = "url";
 	public static final String STATUS_PROPERTY = "status";
@@ -39,6 +44,15 @@ public class JSONExporter {
 		return instance;
 	}
 
+	/**
+	 * Performs an exporting of an object of AnalysisTask to a JSON
+	 * representation.
+	 * 
+	 * @param analysisTask
+	 *            an object of AnalysisTask to export
+	 * @return a resulting JSON object with the task's information or an empty
+	 *         object
+	 */
 	public JSONObject exportToJSON(AnalysisTask analysisTask) {
 		JSONObject taskObject = new JSONObject();
 		if (analysisTask != null) {
@@ -52,6 +66,15 @@ public class JSONExporter {
 		return taskObject;
 	}
 
+	/**
+	 * Performs an exporting of an object of DocumentInfo to a JSON
+	 * representation.
+	 * 
+	 * @param documentInfo
+	 *            an object of DocumentInfo to export
+	 * @return a resulting JSON object with the document's information or an
+	 *         empty object
+	 */
 	public JSONObject exportToJSON(DocumentInfo documentInfo) {
 		JSONObject infoObject = new JSONObject();
 		if (documentInfo != null) {
@@ -72,6 +95,15 @@ public class JSONExporter {
 		return infoObject;
 	}
 
+	/**
+	 * Performs an exporting of an object of HeadingInfo to a JSON
+	 * representation.
+	 * 
+	 * @param heading
+	 *            an object of HeadingInfo to export
+	 * @return a resulting JSON object with the heading's information or an
+	 *         empty object
+	 */
 	public JSONObject exportHeading(HeadingInfo heading) {
 		JSONObject headingObject = new JSONObject();
 		if (heading != null) {
@@ -81,6 +113,13 @@ public class JSONExporter {
 		return headingObject;
 	}
 
+	/**
+	 * Builds a JSONArray object from a set of analysis task entries.
+	 * 
+	 * @param entrySet
+	 *            a set of analysis task entries
+	 * @return a JSONArray object for that set or an empty object
+	 */
 	public JSONArray exportToJSON(Set<Entry<String, AnalysisTask>> entrySet) {
 		JSONArray tasksList = new JSONArray();
 		if (entrySet != null) {

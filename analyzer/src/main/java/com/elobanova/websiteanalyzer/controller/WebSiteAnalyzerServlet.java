@@ -22,6 +22,8 @@ import com.elobanova.websiteanalyzer.service.OnResponseListener;
 
 /**
  * Servlet implementation class WebSiteAnalyzerServlet
+ * 
+ * @author Ekaterina Lobanova
  */
 public class WebSiteAnalyzerServlet extends HttpServlet {
 	private static final int POOL_LIMIT = 5;

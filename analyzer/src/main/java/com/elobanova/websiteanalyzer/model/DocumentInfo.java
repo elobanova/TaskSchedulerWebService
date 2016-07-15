@@ -2,6 +2,11 @@ package com.elobanova.websiteanalyzer.model;
 
 import java.util.List;
 
+/**
+ * A class of the model to provide details of an HTML document.
+ * 
+ * @author Ekaterina Lobanova
+ */
 public class DocumentInfo {
 	private final String title;
 	private final boolean isLoginFormPresent;
@@ -49,6 +54,11 @@ public class DocumentInfo {
 		return headings;
 	}
 
+	/**
+	 * A builder class for DocumentInfo to avoid unreadable setter calls.
+	 * 
+	 * @author Ekaterina Lobanova
+	 */
 	public static class DocumentInfoBuilder {
 		private String title;
 		private boolean isLoginFormPresent;

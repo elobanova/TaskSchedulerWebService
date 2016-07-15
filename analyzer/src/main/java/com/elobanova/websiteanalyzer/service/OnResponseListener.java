@@ -1,7 +1,9 @@
 package com.elobanova.websiteanalyzer.service;
 
 /**
- * A listener for handling responses and error events from the tasks *
+ * A listener for handling responses and error events from the tasks
+ * 
+ * @author Ekaterina Lobanova
  */
 public interface OnResponseListener<T> {
 
