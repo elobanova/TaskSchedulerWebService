@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,9 +18,14 @@ import org.jsoup.select.Elements;
 
 import com.elobanova.websiteanalyzer.model.DocumentInfo;
 import com.elobanova.websiteanalyzer.model.DocumentInfo.DocumentInfoBuilder;
+import com.elobanova.websiteanalyzer.model.HeadingInfo;
 
 public class JsoupParser {
+	private static final String INPUT_TYPE_PASSWORD_QUERY = "input[type$=password]";
+	private static final String FORM_TAG = "form";
 	private static final String LINK_ATTRIBUTE_NAME = "href";
+	private static final String HEADING_MARK = "h";
+	private static final int HEADING_LEVELS_NUMBER_IN_HTML = 6;
 	private final String INTERNAL_LINK_QUERY = "a[" + LINK_ATTRIBUTE_NAME + "]";
 	private final String EXTERNAL_LINK_QUERY = "link[" + LINK_ATTRIBUTE_NAME + "]";
 	private final String PUBLIC_ID_KEY = "publicid";
@@ -35,8 +41,47 @@ public class JsoupParser {
 		documentInfoBuilder.setTitle(parseTitle()).setHTMLVersion(parseHTMLVersion())
 				.setNumberOfInternalLinks(parseNumberOfInternalLinks())
 				.setNumberOfExternalLinks(parseNumberOfExternalLinks())
-				.setNumberOfNotAccessibleLinks(parseNumberOfNotAccessableLinks());
+				.setNumberOfNotAccessibleLinks(parseNumberOfNotAccessableLinks())
+				.setLoginFormPresent(parseLoginFormIsPresent()).setHeadings(parseHeadings());
 		return documentInfoBuilder.build();
+	}
+
+	public List<HeadingInfo> parseHeadings() {
+		List<HeadingInfo> headings = new ArrayList<>();
+
+		StringBuilder fullQuery = new StringBuilder();
+		for (int i = 0; i < HEADING_LEVELS_NUMBER_IN_HTML; i++) {
+			if (i != HEADING_LEVELS_NUMBER_IN_HTML) {
+				int level = i + 1;
+				fullQuery.append(HEADING_MARK + level);
+				fullQuery.append(", ");
+			}
+		}
+
+		Elements hTags = document.select(fullQuery.toString());
+		for (int i = 0; i < HEADING_LEVELS_NUMBER_IN_HTML; i++) {
+			headings.add(getHeadingInfo(i + 1, hTags));
+		}
+
+		return headings;
+	}
+
+	private HeadingInfo getHeadingInfo(int level, Elements container) {
+		String query = HEADING_MARK + level;
+		Elements headingTags = container.select(query);
+		HeadingInfo headingInfo = new HeadingInfo(query, headingTags.size());
+		return headingInfo;
+	}
+
+	public boolean parseLoginFormIsPresent() {
+		Elements forms = document.select(FORM_TAG);
+		List<Element> formsWithPassword = forms.stream().filter(form -> isLoginForm(form)).collect(Collectors.toList());
+		return formsWithPassword != null && formsWithPassword.size() != 0;
+	}
+
+	private boolean isLoginForm(Element form) {
+		Elements passwordElements = form.select(INPUT_TYPE_PASSWORD_QUERY);
+		return passwordElements.size() != 0;
 	}
 
 	public String parseTitle() {

@@ -37,6 +37,13 @@ public class JsoupParserTest {
 		int actualNumberOfExternalLinks = jsoupParser.parseNumberOfExternalLinks();
 		assertEquals(expectedNumberOfExternalLinks, actualNumberOfExternalLinks);
 	}
+	
+	@Test
+	public void testParseLoginFormIsPresent() {
+		boolean expectedLoginIsPresent = true;
+		boolean actualLoginIsPresent = jsoupParser.parseLoginFormIsPresent();
+		assertEquals(expectedLoginIsPresent, actualLoginIsPresent);
+	}
 
 	@Test
 	public void testParseHTMLVersion() {

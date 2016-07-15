@@ -1,6 +1,8 @@
 package com.elobanova.websiteanalyzer.exporter;
 
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,18 +13,18 @@ import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
 
 public class JSONExporter {
-	private static final String URL_PROPERTY = "url";
-	private static final String STATUS_PROPERTY = "status";
-	private static final String DOCUMENT_INFO_PROPERTY = "info";
-	private static final String TITLE_PROPERTY = "title";
-	private static final String IS_LOGIN_PRESENT_PROPERTY = "isLoginFormPresent";
-	private static final String HTML_VERSION_PROPERTY = "htmlVersion";
-	private static final String HEADINGS_PROPERTY = "headings";
-	private static final String HEADING_NODE_NAME_PROPERTY = "headingNodeName";
-	private static final String HEADING_COUNT_PROPERTY = "count";
-	private static final String INTERNAL_LINKS_NUMBER_PROPERTY = "internalLinksNumber";
-	private static final String EXTERNAL_LINKS_NUMBER_PROPERTY = "externalLinksNumber";
-	private static final String INACCESSIBLE_LINKS_NUMBER_PROPERTY = "inaccessibleLinksNumber";
+	public static final String URL_PROPERTY = "url";
+	public static final String STATUS_PROPERTY = "status";
+	public static final String DOCUMENT_INFO_PROPERTY = "info";
+	public static final String TITLE_PROPERTY = "title";
+	public static final String IS_LOGIN_PRESENT_PROPERTY = "isLoginFormPresent";
+	public static final String HTML_VERSION_PROPERTY = "htmlVersion";
+	public static final String HEADINGS_PROPERTY = "headings";
+	public static final String HEADING_NODE_NAME_PROPERTY = "headingNodeName";
+	public static final String HEADING_COUNT_PROPERTY = "count";
+	public static final String INTERNAL_LINKS_NUMBER_PROPERTY = "internalLinksNumber";
+	public static final String EXTERNAL_LINKS_NUMBER_PROPERTY = "externalLinksNumber";
+	public static final String INACCESSIBLE_LINKS_NUMBER_PROPERTY = "inaccessibleLinksNumber";
 
 	private static JSONExporter instance = null;
 
@@ -70,10 +72,20 @@ public class JSONExporter {
 		return infoObject;
 	}
 
-	private JSONObject exportHeading(HeadingInfo heading) {
+	public JSONObject exportHeading(HeadingInfo heading) {
 		JSONObject headingObject = new JSONObject();
-		headingObject.put(HEADING_NODE_NAME_PROPERTY, heading.getHeadingName());
-		headingObject.put(HEADING_COUNT_PROPERTY, heading.getHeadingCount());
+		if (heading != null) {
+			headingObject.put(HEADING_NODE_NAME_PROPERTY, heading.getHeadingName());
+			headingObject.put(HEADING_COUNT_PROPERTY, heading.getHeadingCount());
+		}
 		return headingObject;
+	}
+
+	public JSONArray exportToJSON(Set<Entry<String, AnalysisTask>> entrySet) {
+		JSONArray tasksList = new JSONArray();
+		if (entrySet != null) {
+			entrySet.stream().forEach(entry -> tasksList.put(exportToJSON(entry.getValue())));
+		}
+		return tasksList;
 	}
 }

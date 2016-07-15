@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.elobanova.websiteanalyzer.exporter.JSONExporter;
 import com.elobanova.websiteanalyzer.model.AnalysisTask;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
 import com.elobanova.websiteanalyzer.service.AnalysisTaskThread;
@@ -36,6 +40,22 @@ public class WebSiteAnalyzerServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		String url = request.getParameter("id");
+		if (url != null && !url.isEmpty()) {
+			AnalysisTask requestedTask = tasks.get(url);
+			if (requestedTask != null) {
+				JSONObject requestedObject = JSONExporter.getInstance().exportToJSON(requestedTask);
+				response.getWriter().write(requestedObject.toString());
+			} else {
+				// not found
+			}
+		} else {
+			JSONArray tasksList = JSONExporter.getInstance().exportToJSON(tasks.entrySet());
+			response.getWriter().write(tasksList.toString());
+		}
 	}
 
 	/**
@@ -48,7 +68,6 @@ public class WebSiteAnalyzerServlet extends HttpServlet {
 		if (pageurl == null || pageurl.isEmpty()) {
 			log("PageUrl was empty");
 		} else {
-
 			AnalysisTask analysisTask = new AnalysisTask();
 			analysisTask.setUrl(pageurl);
 			analysisTask.setStatus(StatusEnum.PROCESSING);

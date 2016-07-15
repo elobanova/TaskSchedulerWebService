@@ -1,22 +1,19 @@
 package com.elobanova.websiteanalyzer.model;
 
 public class HeadingInfo {
-	private String headingName;
-	private int headingCount;
+	private final String headingName;
+	private final int headingCount;
+
+	public HeadingInfo(String headingName, int headingCount) {
+		this.headingName = headingName;
+		this.headingCount = headingCount;
+	}
 
 	public String getHeadingName() {
 		return headingName;
 	}
 
-	public void setHeadingName(String headingName) {
-		this.headingName = headingName;
-	}
-
 	public int getHeadingCount() {
 		return headingCount;
-	}
-
-	public void setHeadingCount(int headingCount) {
-		this.headingCount = headingCount;
 	}
 }
