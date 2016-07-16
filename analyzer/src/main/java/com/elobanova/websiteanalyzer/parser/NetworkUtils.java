@@ -20,9 +20,10 @@ public class NetworkUtils {
 	 * 
 	 * @param path
 	 *            a link to check
-	 * @return true if the link is valid
+	 * @return an instance of a Connection with details about its status
 	 */
-	public static boolean isValidURL(String path) {
+	public static Connection checkURL(String path) {
+		Connection info = new Connection();
 		HttpURLConnection connection = null;
 		try {
 			HttpURLConnection.setFollowRedirects(false);
@@ -32,15 +33,16 @@ public class NetworkUtils {
 				connection = (HttpURLConnection) urlConnection;
 				connection.setRequestMethod("HEAD");
 				int responseCode = connection.getResponseCode();
-				return responseCode == HttpURLConnection.HTTP_OK;
+				info.setStatusCode(responseCode);
+				info.setValid(responseCode == HttpURLConnection.HTTP_OK);
 			}
 		} catch (IOException e) {
-			return false;
+			info.setValid(false);
 		} finally {
 			if (connection != null) {
 				connection.disconnect();
 			}
 		}
-		return false;
+		return info;
 	}
 }

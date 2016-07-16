@@ -10,6 +10,7 @@ import com.elobanova.websiteanalyzer.model.AnalysisTask;
 import com.elobanova.websiteanalyzer.model.DocumentInfo;
 import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
+import com.elobanova.websiteanalyzer.parser.Connection;
 
 /**
  * A class which exports the model objects into a JSON representation.
@@ -147,5 +148,13 @@ public class JSONExporter {
 		}
 
 		return null;
+	}
+
+	public JSONObject exportToJSON(Connection checkURL) {
+		JSONObject connectionJSON = new JSONObject();
+		if (checkURL != null) {
+			connectionJSON.put(STATUS_PROPERTY, checkURL.getStatusCode());
+		}
+		return connectionJSON;
 	}
 }

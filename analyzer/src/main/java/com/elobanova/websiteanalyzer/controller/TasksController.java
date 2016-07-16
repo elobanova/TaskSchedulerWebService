@@ -8,8 +8,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.elobanova.websiteanalyzer.exporter.JSONExporter;
+import com.elobanova.websiteanalyzer.parser.Connection;
 import com.elobanova.websiteanalyzer.parser.NetworkUtils;
 import com.elobanova.websiteanalyzer.service.AnalysisTaskService;
 
@@ -44,14 +46,17 @@ public class TasksController {
 	 * @return a status ok (200) or error (500) if the url is invalid
 	 */
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public Response processTask(String json) {
 		String taskURL = JSONExporter.getInstance().exportToUrl(json);
-		if (NetworkUtils.isValidURL(taskURL)) {
+		Connection checkURL = NetworkUtils.checkURL(taskURL);
+		JSONObject statusResponse = JSONExporter.getInstance().exportToJSON(checkURL);
+		if (checkURL.isValid()) {
 			AnalysisTaskService.getInstance().processTask(taskURL);
-			return Response.status(200).build();
+			return Response.status(200).entity(statusResponse.toString()).build();
 		}
 
-		return Response.status(500).build();
+		return Response.status(500).entity(statusResponse.toString()).build();
 	}
 }

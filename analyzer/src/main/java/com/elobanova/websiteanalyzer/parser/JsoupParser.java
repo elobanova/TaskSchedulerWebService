@@ -181,7 +181,7 @@ public class JsoupParser {
 
 	private boolean isAccessable(Element elementLink) {
 		String path = parseElementLinkPath(elementLink);
-		return NetworkUtils.isValidURL(path);
+		return NetworkUtils.checkURL(path).isValid();
 	}
 
 	private String parseElementLinkPath(Element elementLink) {
