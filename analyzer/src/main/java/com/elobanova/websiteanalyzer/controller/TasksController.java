@@ -13,9 +13,21 @@ import com.elobanova.websiteanalyzer.exporter.JSONExporter;
 import com.elobanova.websiteanalyzer.parser.NetworkUtils;
 import com.elobanova.websiteanalyzer.service.AnalysisTaskService;
 
+/**
+ * A controller class to handle RESTful requests. The operations supported are
+ * returning a collection of tasks on GET and scheduling a task on POST.
+ * 
+ * @author Ekaterina Lobanova
+ *
+ */
 @Path("/tasks")
 public class TasksController {
 
+	/**
+	 * A GET request under the path /tasks.
+	 * 
+	 * @return a collection of all tasks as a JSON array
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/")
@@ -24,6 +36,13 @@ public class TasksController {
 		return Response.status(200).entity(tasksList.toString()).build();
 	}
 
+	/**
+	 * A POST request under the path /tasks.
+	 * 
+	 * @param json
+	 *            a json with a URL to analyze
+	 * @return a status ok (200) or error (500) if the url is invalid
+	 */
 	@POST
 	@Path("/")
 	public Response processTask(String json) {

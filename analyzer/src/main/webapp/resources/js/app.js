@@ -91,16 +91,7 @@ $(document).ready(function () {
         }
     };
     Table.prototype.update = function () {
-//        this.render([{
-//            "url": "http://ya.ru",
-//            "status": "done",
-//            "info": {"title": "test", "htmlVersion": "11"}
-//        }, {
-//            "url": "http://ya.ru3",
-//            "status": "done",
-//            "info": {"title": "test3", "htmlVersion": "113"}
-//        }, {"url": "http://ya1.ru", "status": "done", "info": {"title": "test1", "htmlVersion": "121"}}]);
-        $.ajax({
+    	$.ajax({
             dataType: "json",
             url: this.__url,
             success: this.render.bind(this)
@@ -116,14 +107,20 @@ $(document).ready(function () {
     var onAfterUrlSent = function (result) {
         resultsTable.update();
     };
+    $('input#url').focusin(function () {
+        $('div#error-container').fadeOut(500);
+    });
     $('input#process').click(function () {
         $.ajax({
             url: './api/tasks',
             type: 'post',
             contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
             data: JSON.stringify($('form#main').serializeObject()),
-            success: onAfterUrlSent
+            success: onAfterUrlSent,
+            error: function (xhr, ajaxOptions, thrownError) {
+                $('li#error').text('Url is invalid');
+                $('div#error-container').fadeIn(500);
+            }
         });
     });
 

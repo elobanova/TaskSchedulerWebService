@@ -9,6 +9,13 @@ import java.util.concurrent.Executors;
 import com.elobanova.websiteanalyzer.model.AnalysisTask;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
 
+/**
+ * A service class to perform operations from controller. There is an in-memory
+ * storage and a pool with a limit to preven overloading.
+ * 
+ * @author Ekaterina Lobanova
+ *
+ */
 public class AnalysisTaskService {
 	private static final int POOL_LIMIT = 5;
 	private ConcurrentMap<String, AnalysisTask> tasks;
@@ -33,16 +40,33 @@ public class AnalysisTaskService {
 		return instance;
 	}
 
+	/**
+	 * Retrieves the instance of AnalysisTask by given url
+	 * 
+	 * @param url
+	 *            a url of the web site to analyze
+	 * @return an instance of AnalysisTask by given url
+	 */
 	public AnalysisTask getTaskByURL(String url) {
 		return tasks.get(url);
 	}
 
+	/**
+	 * Shuts down the executor.
+	 */
 	public void shutdown() {
 		if (this.executor != null) {
 			executor.shutdown();
 		}
 	}
 
+	/**
+	 * Handles processing of the analysis task. Due to the significant time
+	 * required to process the HTML document, a job is run in a dedicated
+	 * thread.
+	 * 
+	 * @param pageurl
+	 */
 	public void processTask(String pageurl) {
 		final AnalysisTask analysisTask = new AnalysisTask();
 		analysisTask.setUrl(pageurl);
