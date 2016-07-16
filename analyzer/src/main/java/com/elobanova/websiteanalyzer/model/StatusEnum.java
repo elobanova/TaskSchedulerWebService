@@ -7,7 +7,7 @@ package com.elobanova.websiteanalyzer.model;
  * @author Ekaterina Lobanova
  */
 public enum StatusEnum {
-	PROCESSING("processing"), ERROR("error"), DONE("done");
+	PROCESSING("progress"), ERROR("error"), DONE("done");
 
 	private final String name;
 

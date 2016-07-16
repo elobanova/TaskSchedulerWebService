@@ -1,0 +1,27 @@
+.table-icon-done {
+    background-image: url(../../resources/images/apply.png);
+    height: 32px;
+    width: 32px;
+}
+
+.table-icon-progress {
+    background-image: url(../../resources/images/warning.png);
+    height: 32px;
+    width: 32px;
+}
+
+.table-icon-error {
+    background-image: url(../../resources/images/danger.png);
+    height: 32px;
+    width: 32px;
+}
+.shown .details-control {
+    background-image: url(../../resources/images/collapse.png);
+    height: 32px;
+    width: 32px;
+}
+.details-control {
+    background-image: url(../../resources/images/expand.png);
+    height: 32px;
+    width: 32px;
+}

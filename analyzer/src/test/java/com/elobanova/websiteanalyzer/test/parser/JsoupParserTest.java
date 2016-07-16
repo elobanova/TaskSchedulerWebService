@@ -12,6 +12,9 @@ import org.junit.Test;
 import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.parser.JsoupParser;
 
+/**
+ * @author Ekaterina Lobanova
+ */
 public class JsoupParserTest {
 	private JsoupParser jsoupParser;
 

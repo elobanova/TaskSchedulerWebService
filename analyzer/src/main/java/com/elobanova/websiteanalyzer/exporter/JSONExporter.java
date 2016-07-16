@@ -1,8 +1,7 @@
 package com.elobanova.websiteanalyzer.exporter;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,9 +35,13 @@ public class JSONExporter {
 	private JSONExporter() {
 	}
 
-	public static synchronized JSONExporter getInstance() {
+	public static JSONExporter getInstance() {
 		if (instance == null) {
-			instance = new JSONExporter();
+			synchronized (JSONExporter.class) {
+				if (instance == null) {
+					instance = new JSONExporter();
+				}
+			}
 		}
 
 		return instance;
@@ -120,11 +123,29 @@ public class JSONExporter {
 	 *            a set of analysis task entries
 	 * @return a JSONArray object for that set or an empty object
 	 */
-	public JSONArray exportToJSON(Set<Entry<String, AnalysisTask>> entrySet) {
+	public JSONArray exportToJSON(Collection<? extends AnalysisTask> analysisTasks) {
 		JSONArray tasksList = new JSONArray();
-		if (entrySet != null) {
-			entrySet.stream().forEach(entry -> tasksList.put(exportToJSON(entry.getValue())));
+		if (analysisTasks != null) {
+			analysisTasks.stream().forEach(entry -> tasksList.put(exportToJSON(entry)));
 		}
 		return tasksList;
+	}
+
+	/**
+	 * Retrieves a url from a json string.
+	 * 
+	 * @param json
+	 *            a json string which contains a url
+	 * @return a url path if a json string has this property
+	 */
+	public String exportToUrl(String json) {
+		if (json != null) {
+			JSONObject jsonObj = new JSONObject(json);
+			if (jsonObj.has(URL_PROPERTY)) {
+				return jsonObj.getString(JSONExporter.URL_PROPERTY);
+			}
+		}
+
+		return null;
 	}
 }

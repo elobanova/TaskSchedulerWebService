@@ -3,6 +3,7 @@ package com.elobanova.websiteanalyzer.test.exporter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -20,6 +21,9 @@ import com.elobanova.websiteanalyzer.model.DocumentInfo.DocumentInfoBuilder;
 import com.elobanova.websiteanalyzer.model.HeadingInfo;
 import com.elobanova.websiteanalyzer.model.StatusEnum;
 
+/**
+ * @author Ekaterina Lobanova
+ */
 public class JSONExporterTest {
 	private static final int NOT_ACCESSIBLE_LINKS_NUMBER = 2;
 	private static final int INTERNAL_LINKS_NUMBER = 10;
@@ -148,5 +152,26 @@ public class JSONExporterTest {
 
 		assertTrue(exportObject.isNull(JSONExporter.HEADING_NODE_NAME_PROPERTY));
 		assertTrue(exportObject.isNull(JSONExporter.HEADING_COUNT_PROPERTY));
+	}
+
+	@Test
+	public void testExportToUrlWhenInputIsNull() {
+		String url = jsonExporter.exportToUrl(null);
+		assertNull(url);
+	}
+
+	@Test
+	public void testExportToUrlWhenUrlIsAbsent() {
+		String url = jsonExporter.exportToUrl("{nourl: \"path\"}");
+		assertNull(url);
+	}
+
+	@Test
+	public void testExportToUrl() {
+		String expectedPath = "path";
+		String url = jsonExporter.exportToUrl("{url: \"" + expectedPath + "\"}");
+		assertNotNull(url);
+
+		assertEquals(expectedPath, url);
 	}
 }

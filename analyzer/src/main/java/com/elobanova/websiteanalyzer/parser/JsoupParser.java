@@ -1,9 +1,6 @@
 package com.elobanova.websiteanalyzer.parser;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +21,11 @@ import com.elobanova.websiteanalyzer.model.HeadingInfo;
  * A parser class which delegates finding out all the needed information about
  * an HTML document to Jsoup implementation.
  * 
- * The following details can be retrieved:
- * What HTML version the document has.
- * What the page title is.
- * How many headings of what level there are in the document.
- * How many internal and external links there are in the document. 
- * How many inaccessible links there are in the document.
- * Whether the page contains a login-form.
+ * The following details can be retrieved: What HTML version the document has.
+ * What the page title is. How many headings of what level there are in the
+ * document. How many internal and external links there are in the document. How
+ * many inaccessible links there are in the document. Whether the page contains
+ * a login-form.
  * 
  * @author Ekaterina Lobanova
  */
@@ -186,22 +181,7 @@ public class JsoupParser {
 
 	private boolean isAccessable(Element elementLink) {
 		String path = parseElementLinkPath(elementLink);
-		try {
-			HttpURLConnection.setFollowRedirects(false);
-			URL linkURL = new URL(path);
-			URLConnection urlConnection = linkURL.openConnection();
-			if (urlConnection instanceof HttpURLConnection) {
-				HttpURLConnection connection = (HttpURLConnection) urlConnection;
-				connection.setRequestMethod("HEAD");
-				int responseCode = connection.getResponseCode();
-				return responseCode == HttpURLConnection.HTTP_OK;
-			}
-
-			return false;
-		} catch (IOException e) {
-			// log
-			return false;
-		}
+		return NetworkUtils.isValidURL(path);
 	}
 
 	private String parseElementLinkPath(Element elementLink) {
